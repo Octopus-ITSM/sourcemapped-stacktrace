@@ -46,7 +46,7 @@ function(source_map_consumer) {
       done(result);
     }, opts);
 
-    if (isChrome()) {
+    if (isChrome() || isIE(11)) {
       regex = /^ +at.+\((.*):([0-9]+):([0-9]+)/;
       expected_fields = 4;
       // (skip first line containing exception message)
@@ -89,6 +89,28 @@ function(source_map_consumer) {
   var isFirefox = function() {
     return navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
   };
+
+  var isIE = function(version) {
+    return getInternetExplorerVersion() >= version;
+  };
+
+  var getInternetExplorerVersion = function() {
+    var ua = navigator.userAgent;
+    if (navigator.appName == 'Microsoft Internet Explorer') {
+      var re = new RegExp("MSIE ([0-9]{1,}[\.0-9]{0,})");
+      if (re.exec(ua) != null) {
+        return parseFloat(RegExp.$1);
+      }
+    }
+    else if (navigator.appName == 'Netscape') {
+      var re = new RegExp("Trident/.*rv:([0-9]{1,}[\.0-9]{0,})");
+      if (re.exec(ua) != null) {
+        return parseFloat(RegExp.$1);
+      }
+    }
+    return -1;
+  };
+
   var Fetcher = function(done, opts) {
     this.sem = 0;
     this.mapForUri = opts && opts.cacheGlobally ? global_mapForUri : {};

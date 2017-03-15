@@ -86,8 +86,8 @@ would be easy to support those formats by ripping off [stacktrace.js](https://gi
 
 ## Known issues
 
-* Doesn't support exception formats of any browser other than Chrome and
-  Firefox
+* Doesn't support exception formats of any browser other than Chrome,
+  Firefox and IE11
 * Only supports JS containing //# sourceMappingURL= declarations (i.e. no
   support for the SourceMap: HTTP header (yet)
 * Some prominent sourcemap generators (including CoffeeScript, Traceur, Babel)
